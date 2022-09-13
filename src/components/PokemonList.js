@@ -1,40 +1,19 @@
-import React, { Fragment, useEffect, useState } from "react";
-import axios from "axios";
+import React, { Fragment } from "react";
 
 import { PokemonCard } from "./PokemonCard";
 
-export const PokemonList = () => {
-  const [data, setData] = useState({
-    url: "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0",
-    pokemon: null,
-  });
-
-  const { url, pokemon } = data;
-
-  const getPokemon = async () => {
-    const res = await axios.get(url);
-    setData({ pokemon: res.data["results"] });
-  };
-
-  useEffect(() => {
-    getPokemon();
-  }, []);
-
+export const PokemonList = ({ pokemon }) => {
   return (
-    <Fragment>
-      {pokemon ? (
-        <div className="row">
-          {pokemon.map((pokemon) => (
-            <PokemonCard
-              key={pokemon.name}
-              name={pokemon.name}
-              url={pokemon.url}
-            />
-          ))}
-        </div>
-      ) : (
-        <h1>Loading</h1>
-      )}
-    </Fragment>
+    <div className="row">
+      {pokemon.map((pokemon) => (
+        <PokemonCard
+          key={pokemon.name}
+          name={pokemon.name}
+          url={pokemon.url}
+          image={pokemon.image}
+          index={pokemon.index}
+        />
+      ))}
+    </div>
   );
 };
