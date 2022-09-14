@@ -22,11 +22,11 @@ export const Dashboard = () => {
         try {
           let pokemonUrl = "https://pokeapi.co/api/v2/pokemon/" + index;
 
-          const pokemonRes = await axios.get(pokemonUrl);
+          const pokemonData = await axios.get(pokemonUrl);
 
           let image;
-          if (pokemonRes.data.sprites.front_default) {
-            image = pokemonRes.data.sprites.front_default;
+          if (pokemonData.data.sprites.front_default) {
+            image = pokemonData.data.sprites.front_default;
           } else {
             image = noimage;
           }
