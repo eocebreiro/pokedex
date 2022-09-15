@@ -1,78 +1,19 @@
-import React, { Fragment, useEffect, useState } from "react";
-import axios from "axios";
+import React, { Fragment } from "react";
 
-import noimage from "../img/noimage.jpg";
-import { Spinner } from "../components/Spinner";
 import { PokemonList } from "../components/PokemonList";
+import { SearchBar } from "../components/SearchBar";
 
-export const Dashboard = () => {
-  const [pokemonList, setPokemonList] = useState(null);
-  const url = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
-  const pokemon = [];
-
-  //Get a list of pokemon
-  const getPokemon = async () => {
-    try {
-      const res = await axios.get(url);
-      for (let i = 0; i < res.data["results"].length; i++) {
-        let index =
-          res.data["results"][i].url.split("/")[
-            res.data["results"][i].url.split("/").length - 2
-          ];
-        try {
-          let pokemonUrl = "https://pokeapi.co/api/v2/pokemon/" + index;
-
-          const pokemonData = await axios.get(pokemonUrl);
-
-          let image;
-          if (pokemonData.data.sprites.front_default) {
-            image = pokemonData.data.sprites.front_default;
-          } else {
-            image = noimage;
-          }
-
-          pokemon.push({
-            name: res.data["results"][i].name,
-            index: index,
-            url: pokemonUrl,
-            image: image,
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      setPokemonList(pokemon);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getPokemon();
-  });
-
+export const Dashboard = ({ pokemonList }) => {
   return (
     <Fragment>
-      {pokemonList ? (
-        <Fragment>
-          <div className="loading-fade d-flex justify-content-center w-100 vh-100 position-absolute">
-            <Spinner />
+      <div className="container ">
+        <SearchBar />
+        <div className="row">
+          <div className="col">
+            <PokemonList pokemon={pokemonList} />
           </div>
-          <div className="container ">
-            <div className="row">
-              <div className="col">
-                <PokemonList pokemon={pokemonList} />
-              </div>
-            </div>
-          </div>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <div className="loading d-flex justify-content-center w-100 vh-100 position-absolute">
-            <Spinner />
-          </div>
-        </Fragment>
-      )}
+        </div>
+      </div>
     </Fragment>
   );
 };
