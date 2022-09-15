@@ -5,7 +5,7 @@ export const PokemonCard = ({ name, url, index, image }) => {
   return (
     <div className="col-md-3 col-sm-6 mb-5">
       <Link to={`pokemon/${index}`}>
-        <div className="card">
+        <div className="card card-custom">
           <h5 className="card-header">#{index}</h5>
           <div>{}</div>
           <img
