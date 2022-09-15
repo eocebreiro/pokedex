@@ -43,13 +43,15 @@
     visibility: hidden;
   }
 }
-
-a,
-a:focus,
-a:hover,
-a:visited,
-a:link,
-a:active {
+a {
+  text-decoration: none;
+}
+.card-link-custom,
+.card-link-custom:focus,
+.card-link-custom:hover,
+.card-link-custom:visited,
+.card-link-custom:link,
+.card-link-custom:active {
   text-decoration: none;
   color: black;
 }
