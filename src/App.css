@@ -50,6 +50,26 @@ a {
   color: black;
 }
 
+@media (max-width: 425px) {
+  /* For desktop: */
+  .search-custom {
+    font-size: 25px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  /* For desktop: */
+  .search-custom {
+    font-size: 20px !important;
+  }
+}
+@media (max-width: 325px) {
+  /* For desktop: */
+  .search-custom {
+    font-size: 17px !important;
+  }
+}
+
 @keyframes fadeOutAnimation {
   0% {
     opacity: 1;
