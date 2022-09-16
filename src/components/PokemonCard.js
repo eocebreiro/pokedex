@@ -6,7 +6,7 @@ export const PokemonCard = ({ name, url, index, image }) => {
     <div className="col-md-3 col-sm-6 mb-5">
       <Link className="card-link-custom" to={`pokemon/${index}`}>
         <div className="card card-custom">
-          <h5 className="card-header"># {index}</h5>
+          <h5 className="card-header">{index}</h5>
           <div>{}</div>
           <img
             style={{ width: "6rem", height: "6rem" }}

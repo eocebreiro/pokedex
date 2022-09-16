@@ -33,16 +33,6 @@
   display: block;
 }
 
-@keyframes fadeOutAnimation {
-  0% {
-    opacity: 1;
-    visibility: visible;
-  }
-  100% {
-    opacity: 0%;
-    visibility: hidden;
-  }
-}
 a {
   text-decoration: none;
 }
@@ -54,4 +44,15 @@ a {
 .card-link-custom:active {
   text-decoration: none;
   color: black;
+}
+
+@keyframes fadeOutAnimation {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0%;
+    visibility: hidden;
+  }
 }
