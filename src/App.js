@@ -86,7 +86,7 @@ function App() {
                   path="/pokedex/pokemon/:pokemonIndex"
                   element={<Pokemon />}
                 />
-                <Route path="/404" element={<NotFoundPage />} />
+                <Route path="/pokedex/404" element={<NotFoundPage />} />
                 <Route path="*" element={<Navigate replace to="/404" />} />
               </Routes>
             </div>
