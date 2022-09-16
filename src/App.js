@@ -1,5 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import axios from "axios";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -81,7 +86,8 @@ function App() {
                   path="/pokedex/pokemon/:pokemonIndex"
                   element={<Pokemon />}
                 />
-                <Route exact path="*" element={<NotFoundPage />} />
+                <Route path="/404" element={<NotFoundPage />} />
+                <Route path="*" element={<Navigate replace to="/404" />} />
               </Routes>
             </div>
           </Fragment>
