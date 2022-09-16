@@ -1,9 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { PokemonList } from "../components/PokemonList";
 import { SearchBar } from "../components/SearchBar";
 
 export const Dashboard = ({ pokemonList }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     search: "",
   });
@@ -12,7 +14,31 @@ export const Dashboard = ({ pokemonList }) => {
   const [list, setList] = useState(pokemonList);
 
   const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    e.preventDefault();
+    setFormData({ ...formData, search: e.target.value });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    let pokemonIndex = null;
+    let index = null;
+    if (isNaN(search)) {
+      console.log(search);
+      index = await list.map((pokemon) =>
+        pokemon.name.toLowerCase().indexOf(search.toLowerCase())
+      );
+      if (search.toLowerCase() !== (await list[index].name.toLowerCase())) {
+        index = null;
+      }
+    } else {
+      console.log(search);
+      index = await list.map((pokemon) => pokemon.index.indexOf(search));
+    }
+    if (index != null) {
+      pokemonIndex = list[index].index;
+
+      navigate("/pokemon/" + pokemonIndex);
+    }
   };
 
   const getList = async () => {
@@ -37,6 +63,7 @@ export const Dashboard = ({ pokemonList }) => {
   useEffect(() => {
     getList();
   }, [search]);
+
   return (
     <Fragment>
       <div className="container ">
@@ -57,6 +84,11 @@ export const Dashboard = ({ pokemonList }) => {
                 opacity: "0.8",
                 fontSize: "1.75em",
               }}
+            />
+            <input
+              style={{ display: "none" }}
+              type="submit"
+              onClick={(e) => onSubmit(e)}
             />
           </form>
         </div>
