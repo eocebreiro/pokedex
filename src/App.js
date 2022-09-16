@@ -73,12 +73,12 @@ function App() {
               <Routes>
                 <Route
                   exact
-                  path="/"
+                  path="/pokedex"
                   element={<Dashboard pokemonList={pokemonList} />}
                 />
                 <Route
                   exact
-                  path="/pokemon/:pokemonIndex"
+                  path="/pokedex/pokemon/:pokemonIndex"
                   element={<Pokemon />}
                 />
                 <Route exact path="*" element={<NotFoundPage />} />

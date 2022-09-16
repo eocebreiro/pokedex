@@ -1,8 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { PokemonList } from "../components/PokemonList";
-import { SearchBar } from "../components/SearchBar";
 
 export const Dashboard = ({ pokemonList }) => {
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ export const Dashboard = ({ pokemonList }) => {
     if (index != null) {
       pokemonIndex = list[index].index;
 
-      navigate("/pokemon/" + pokemonIndex);
+      navigate("/pokedex/pokemon/" + pokemonIndex);
     }
   };
 

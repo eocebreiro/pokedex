@@ -19,7 +19,7 @@ export const NotFoundPage = ({ pokemonList }) => {
             <h2>Page Not Found</h2>
           </div>
           <div className="justify-content-center d-flex align-items-center px-2">
-            <a className="btn btn-dark mt-3" role="button" href="/">
+            <a className="btn btn-dark mt-3" role="button" href="/pokedex">
               Home
             </a>
           </div>
