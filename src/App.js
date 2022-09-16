@@ -87,7 +87,10 @@ function App() {
                   element={<Pokemon />}
                 />
                 <Route path="/pokedex/404" element={<NotFoundPage />} />
-                <Route path="*" element={<Navigate replace to="/404" />} />
+                <Route
+                  path="*"
+                  element={<Navigate replace to="/pokedex/404" />}
+                />
               </Routes>
             </div>
           </Fragment>
