@@ -11,6 +11,7 @@ import { NotFoundPage } from "./layout/NotFoundPage";
 import { Pokemon } from "./components/Pokemon";
 import { Spinner } from "./components/Spinner";
 import noimage from "./img/noimage.png";
+import backgroundImage from "./img/background.png";
 
 const MAX_POKEMON = 905;
 
@@ -65,7 +66,10 @@ function App() {
       <Fragment>
         {pokemonList ? (
           <Fragment>
-            <div className="App">
+            <div
+              className="App"
+              style={{ background: `url(${backgroundImage})` }}
+            >
               <Navbar />
               <div className="loading-fade d-flex justify-content-center w-100 vh-100 position-absolute">
                 <Spinner />
