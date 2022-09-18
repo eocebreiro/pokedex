@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import noimage from "../img/noimage.png";
+
 export const PokemonCard = ({ name, url, index, image }) => {
   return (
     <div className="col-md-3 col-sm-6 mb-5">
@@ -12,6 +14,10 @@ export const PokemonCard = ({ name, url, index, image }) => {
             style={{ width: "6rem", height: "6rem" }}
             className="card-img-top rounded mx-auto mt-2 pokemon-card-img"
             src={image}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = noimage;
+            }}
             alt={"Pokemon #" + index + " Image"}
           />
           <div className="card-body mx-auto">

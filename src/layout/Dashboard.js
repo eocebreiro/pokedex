@@ -1,102 +1,136 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { PokemonList } from "../components/PokemonList";
+import { Spinner } from "../components/Spinner";
+import noimage from "../img/noimage.png";
 
-export const Dashboard = ({ pokemonList }) => {
+const MAX_POKEMON = 905;
+
+export const Dashboard = () => {
   const navigate = useNavigate();
+
+  const [pokemon, setPokemon] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [formData, setFormData] = useState({
     search: "",
   });
   const { search } = formData;
 
-  const [list, setList] = useState(pokemonList);
-
   const onChange = (e) => {
     e.preventDefault();
-    setFormData({ ...formData, search: e.target.value });
+    setFormData({ search: e.target.value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    let pokemonIndex = null;
-    let index = null;
+    let searchPokemon = null;
     if (isNaN(search)) {
-      console.log(search);
-      index = await list.map((pokemon) =>
-        pokemon.name.toLowerCase().indexOf(search.toLowerCase())
+      let findPokemon = pokemon.find(
+        ({ name }) => name.toLowerCase() === search.toLowerCase()
       );
-      if (search.toLowerCase() !== (await list[index].name.toLowerCase())) {
-        index = null;
+      if (findPokemon) {
+        searchPokemon = findPokemon.index;
       }
     } else {
-      console.log(search);
-      index = await list.map((pokemon) => pokemon.index.indexOf(search));
+      if (parseInt(search) > 0 && parseInt(search) < MAX_POKEMON)
+        searchPokemon = search;
     }
-    if (index != null) {
-      pokemonIndex = list[index].index;
 
-      navigate("/pokedex/pokemon/" + pokemonIndex);
+    if (searchPokemon) {
+      navigate("/pokedex/pokemon/" + searchPokemon);
+    } else {
+      navigate("/pokedex/404");
     }
-  };
-
-  const getList = async () => {
-    let searchList = pokemonList
-      .filter((pokemon) => {
-        if (
-          pokemon.name.toLowerCase().includes(search.toLowerCase()) ||
-          pokemon.index === search
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .map((pokemon) => {
-        return pokemon;
-      });
-
-    setList(searchList);
   };
 
   useEffect(() => {
-    getList();
-  }, [search]);
+    //Get a list of pokemom
+    const getPokemon = async () => {
+      const url = `https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}&offset=0`;
+      const res = await axios.get(url);
+      const pokemon = res.data.results.map((result, index) => ({
+        name: result.name,
+        index: index + 1,
+        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+          index + 1
+        }.png`,
+        apiURL: result.url,
+      }));
+      setPokemon(pokemon);
+      setSearchResults(pokemon);
+    };
+    getPokemon();
+  }, []);
+
+  useEffect(() => {
+    // display user's search results while the user is typing
+    const getSeachResults = async () => {
+      let searchList = pokemon
+        .filter((pokemon) => {
+          if (
+            pokemon.name.toLowerCase().includes(search.toLowerCase()) ||
+            pokemon.index === parseInt(search)
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+        .map((pokemon) => {
+          return pokemon;
+        });
+      setSearchResults(searchList);
+    };
+    getSeachResults();
+  }, [search, pokemon]);
 
   return (
     <Fragment>
-      <div className="container ">
-        <div className="pt-4 pb-4">
-          <form>
-            <input
-              placeholder="Pokemon Name or Number"
-              name="search"
-              value={search}
-              onChange={(e) => onChange(e)}
-              autoComplete="off"
-              className="form-control mx-auto search-custom"
-              style={{
-                backgroundColor: "white transparent",
-                height: "1.75em",
-                width: "95%",
-                borderRadius: "10px",
-                opacity: "0.8",
-                fontSize: "1.75em",
-              }}
-            />
-            <input
-              style={{ display: "none" }}
-              type="submit"
-              onClick={(e) => onSubmit(e)}
-            />
-          </form>
+      {pokemon.length === 0 ? (
+        <div className="loading d-flex justify-content-center w-100 vh-100 position-absolute">
+          <Spinner />
         </div>
-        <div className="row">
-          <div className="col">
-            <PokemonList pokemon={list} />
+      ) : (
+        <Fragment>
+          <div className="loading-fade d-flex justify-content-center w-100 vh-100 position-absolute">
+            <Spinner />
           </div>
-        </div>
-      </div>
+          <div className="container ">
+            <div className="pt-4 pb-4">
+              <form>
+                <input
+                  placeholder="Pokemon Name or Number"
+                  name="search"
+                  value={search}
+                  onChange={(e) => onChange(e)}
+                  autoComplete="off"
+                  className="form-control mx-auto search-custom"
+                  style={{
+                    backgroundColor: "white transparent",
+                    height: "1.75em",
+                    width: "95%",
+                    borderRadius: "10px",
+                    opacity: "0.8",
+                    fontSize: "1.75em",
+                  }}
+                />
+                <input
+                  style={{ display: "none" }}
+                  type="submit"
+                  onClick={(e) => onSubmit(e)}
+                />
+              </form>
+            </div>
+            <div className="row">
+              <div className="col">
+                <PokemonList pokemon={searchResults} />
+              </div>
+            </div>
+          </div>
+        </Fragment>
+      )}
     </Fragment>
   );
 };
