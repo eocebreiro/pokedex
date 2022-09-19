@@ -17,7 +17,7 @@ import { Pokemon } from "./components/Pokemon";
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App bg-dark">
         <Navbar />
         <Routes>
           <Route exact path="/pokedex" element={<Dashboard />} />

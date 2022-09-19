@@ -8,20 +8,21 @@ export const PokemonCard = ({ name, url, index, image }) => {
     <div className="col-md-3 col-sm-6 mb-5">
       <Link className="card-link-custom" to={`pokemon/${index}`}>
         <div className="card card-custom">
-          <h5 className="card-header">{index}</h5>
-          <div>{}</div>
-          <img
-            style={{ width: "6rem", height: "6rem" }}
-            className="card-img-top rounded mx-auto mt-2 pokemon-card-img"
-            src={image}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null;
-              currentTarget.src = noimage;
-            }}
-            alt={"Pokemon #" + index + " Image"}
-          />
+          <div className="card-header">
+            <img
+              style={{ width: "100%", height: "100%" }}
+              className="card-img-top rounded mx-auto mt-2 pokemon-card-img"
+              src={image}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null;
+                currentTarget.src = noimage;
+              }}
+              alt={"Pokemon #" + index + " Image"}
+            />
+          </div>
           <div className="card-body mx-auto">
-            <h6 className="card-title text-capitalize">{name}</h6>
+            <h5 className="card-title text-capitalize mb-0 ">{name}</h5>
+            <span className="d-flex justify-content-center">{"#" + index}</span>
           </div>
         </div>
       </Link>

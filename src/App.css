@@ -50,6 +50,10 @@ a {
   color: black;
 }
 
+.search-bar-custom {
+  padding-bottom: 2.5rem;
+}
+
 @media (max-width: 425px) {
   /* For desktop: */
   .search-custom {

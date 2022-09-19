@@ -56,8 +56,12 @@ export const Pokemon = () => {
   const { pokemonIndex } = useParams();
 
   //Urls for pokemon information (API)
-  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonIndex}`;
-  const pokemonSpeciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${pokemonIndex}`;
+  const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${parseInt(
+    pokemonIndex
+  )}`;
+  const pokemonSpeciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${parseInt(
+    pokemonIndex
+  )}`;
 
   //Get pokemon data
   const getPokemonData = async () => {
@@ -67,13 +71,7 @@ export const Pokemon = () => {
     const name = pokemonRes.data.name;
 
     // Get image url
-
-    let imageUrl;
-    if (pokemonRes.data.sprites.front_default === null) {
-      imageUrl = noimage;
-    } else {
-      imageUrl = pokemonRes.data.sprites.front_default;
-    }
+    let imageUrl = `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/${pokemonIndex}.png`;
     // Get stats data
     let { hp, attack, defense, speed, specialAttack, specialDefense } = "";
     pokemonRes.data.stats.forEach((stat) => {
@@ -240,7 +238,7 @@ export const Pokemon = () => {
             <div className="card-header">
               <div className="row">
                 <div className="col-5">
-                  <h5>{pokemonIndex}</h5>
+                  <h5>{"#" + pokemonIndex}</h5>
                 </div>
                 <div className="col-7">
                   <div className="float-end text-capitalize">
@@ -259,15 +257,15 @@ export const Pokemon = () => {
             </div>
             <div className="card-body">
               <div className="row align-items-center">
-                <div className="col-md-3 align-items-center d-flex">
+                <div className="col-md-4 align-items-center d-flex">
                   <img
-                    style={{ width: "15rem", height: "15rem" }}
+                    style={{ maxWidth: "15rem", maxHeight: "15rem" }}
                     className="card-img-top rounded mx-auto mt-2"
                     src={imageUrl}
                     alt={"Pokemon #" + pokemonIndex + " Image"}
                   />
                 </div>
-                <div className="col-md-9">
+                <div className="col-md-8">
                   <h4 className="mx-auto text-capitalize">{name} </h4>
                   <div className="row align-items-center">
                     <div className="col-12 col-md-3">HP</div>
@@ -378,7 +376,7 @@ export const Pokemon = () => {
                 </div>
                 <div className="row mt-1">
                   <div className="col">
-                    <p className="">{description}</p>
+                    <p>{description}</p>
                   </div>
                 </div>
               </div>

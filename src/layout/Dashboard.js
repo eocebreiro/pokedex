@@ -50,14 +50,24 @@ export const Dashboard = () => {
     const getPokemon = async () => {
       const url = `https://pokeapi.co/api/v2/pokemon?limit=${MAX_POKEMON}&offset=0`;
       const res = await axios.get(url);
-      const pokemon = res.data.results.map((result, index) => ({
-        name: result.name,
-        index: index + 1,
-        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-          index + 1
-        }.png`,
-        apiURL: result.url,
-      }));
+      const pokemon = res.data.results.map((result, index) => {
+        let stringIndex = null;
+        if (index + 1 < 100) {
+          if (index + 1 < 10) {
+            stringIndex = "00" + (index + 1).toString();
+          } else {
+            stringIndex = "0" + (index + 1).toString();
+          }
+        } else {
+          stringIndex = (index + 1).toString();
+        }
+        return {
+          name: result.name,
+          index: stringIndex,
+          image: `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/${stringIndex}.png`,
+          apiURL: result.url,
+        };
+      });
       setPokemon(pokemon);
       setSearchResults(pokemon);
     };
@@ -98,7 +108,7 @@ export const Dashboard = () => {
             <Spinner />
           </div>
           <div className="container ">
-            <div className="pt-4 pb-4">
+            <div className="search-bar-custom">
               <form>
                 <input
                   placeholder="Pokemon Name or Number"
